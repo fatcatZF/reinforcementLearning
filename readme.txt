@@ -4,4 +4,5 @@ We will use git to track this file.
 Git is a free software distributed under the GPL.
 Git has a mutable index called stage.
 git tracks changes of file
+My stupid boss still prefers SVN
 
