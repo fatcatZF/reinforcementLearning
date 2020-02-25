@@ -7,9 +7,17 @@ Created on Mon Feb 24 11:13:36 2020
 """
 
 import numpy as np 
+from my_hex import MyHexBoard
 
-def dummyEvaluation(mode='running'):
+def dummyEvaluation(hexBoard=None):
     #This dummy evaluation function is a random number generator
-    if mode=='debugging':
-        return 1
     return np.random.randint(0,10)
+
+
+
+def gameOverEvaluation(hexBoard:MyHexBoard):
+    pass
+
+
+def heuristicEvaluation(hexBoard:MyHexBoard):
+    pass

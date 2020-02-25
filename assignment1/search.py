@@ -13,14 +13,14 @@ from evaluation import dummyEvaluation
 INF = np.inf
 
 class Agent:
-    def __init__(self,hexBoard:MyHexBoard, agent_color):
+    def __init__(self,hexBoard:MyHexBoard, agent_color,eval_func=dummyEvaluation):
         self.hexBoard=hexBoard
         self.agent_color = agent_color
-        
+        self.eval_func = eval_func
         
         
     
-    def alphabeta(self,hexBoard,current_color, eval_func=dummyEvaluation, alpha=-INF, beta=INF):
+    def alphabeta(self,hexBoard, eval_func, current_color=MyHexBoard.BLUE, alpha=-INF, beta=INF):
         #compute the minimax score of every possible move of current color
         opposite_color = hexBoard.get_opposite_color(current_color)
         movelist = hexBoard.getMoveList()
@@ -34,7 +34,7 @@ class Agent:
             #computing max value
             g = -INF                
             for state in next_states:
-                g = max(g, self.alphabeta(state,current_color=opposite_color,alpha=alpha, beta=beta))
+                g = max(g, self.alphabeta(state,eval_func, current_color=opposite_color,alpha=alpha, beta=beta))
                 alpha = max(alpha,g)
                 if g>=beta:
                     break #beta cutoff
@@ -43,7 +43,7 @@ class Agent:
             #computing min value
             g = INF
             for state in next_states:
-                g = min(g, self.alphabeta(state, current_color=opposite_color, alpha=alpha, beta=beta))
+                g = min(g, self.alphabeta(state, eval_func, current_color=opposite_color, alpha=alpha, beta=beta))
                 beta = min(beta,g)
                 if g<=alpha:
                     break #cutoff
@@ -60,7 +60,7 @@ class Agent:
         movelist = self.hexBoard.getMoveList()
         move_score = dict()
         for move in movelist:
-            move_score[move]=self.alphabeta(self.hexBoard.tryMove(move,self.agent_color),current_color=self.agent_color)
+            move_score[move]=self.alphabeta(self.hexBoard.tryMove(move,self.agent_color), self.eval_func, current_color=self.agent_color)
             
         #print(move_score)
             

@@ -49,6 +49,7 @@ if hexBoard.check_win(human_color):
 else:
     print("You lost!")
 
+hexBoard.print()
 
 
 
