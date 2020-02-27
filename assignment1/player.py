@@ -7,7 +7,7 @@ Created on Thu Feb 27 00:05:58 2020
 """
 import numpy as np
 from my_hex import MyHexBoard
-from evaluation import dummyEvaluation
+from evaluation import *
 from search import alphabeta
 import operator
 
@@ -15,7 +15,7 @@ INF = np.inf
 
 
 class Agent:
-    def __init__(self,hexBoard:MyHexBoard, agent_color,search_func=alphabeta, eval_func=dummyEvaluation):
+    def __init__(self,hexBoard:MyHexBoard, agent_color,search_func=alphabeta, eval_func=heuristicEvaluation):
         self.hexBoard=hexBoard
         self.agent_color = agent_color
         self.eval_func = eval_func

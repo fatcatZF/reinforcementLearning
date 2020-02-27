@@ -25,7 +25,7 @@ def alphabeta(agent, hexBoard:MyHexBoard, depth, eval_func, current_color=MyHexB
         # Record all next states(hexBoards)
         
         if hexBoard.game_over or depth==0:
-            return eval_func()
+            return eval_func(hexBoard,agent.agent_color)
         
         elif current_color == agent.agent_color:
             #computing max value
