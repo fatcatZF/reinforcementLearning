@@ -15,7 +15,7 @@ class MyHexBoard(HexBoard):
         self.size = board_size
         self.game_over = False
         if self.board==dict():
-            #print("board is empty")
+            print("board is empty")
             for x in range(board_size):
               for y in range (board_size):
                 self.board[x,y] = HexBoard.EMPTY
