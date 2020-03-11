@@ -26,10 +26,11 @@ class Agent:
     def find_optimal_move(self,depth):
         #find the optimal move according to minimax score
         movelist = self.hexBoard.getMoveList()
+        #print("movelist: ", movelist)#get the movelist for debugging
         move_score = dict()
         for move in movelist:
             move_score[move]=self.search_func(self,self.hexBoard.tryMove(move,self.agent_color), depth, self.eval_func, current_color=self.agent_color)
-            
+       # print("score of moves: ", move_score)# for debugging the size of board
         return max(move_score.items(),key=operator.itemgetter(1))[0]
     
        

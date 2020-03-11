@@ -32,9 +32,10 @@ and that of searching with heuristic evaluation of depth 4
 
 
 
-def play(time_of_play, ratings_fatCat, ratings_iCat, board_size=4):
+def play(time_of_play, board_size=4):
     
-    
+    ratings_fatCat=[]
+    ratings_iCat=[]
     beginning_time = time.time()
     rating_fatCat = Rating()
     rating_iCat = Rating()
@@ -58,11 +59,19 @@ def play(time_of_play, ratings_fatCat, ratings_iCat, board_size=4):
         #agent that searches  with iterative deepen and tranposition table
         first_move_color = random.choice(colors_of_agents)
         while(not hexBoard.game_over):
-            if first_move_color==fatCat:
+            if first_move_color==fatCat.agent_color:
+                if hexBoard.game_over:
+                    break
                 fatCat.make_move(3)
+                if hexBoard.game_over:
+                    break
                 iCat.make_move(10) #duration of search
             else:
-                iCat.make_move(10) 
+                if hexBoard.game_over:
+                    break
+                iCat.make_move(10)
+                if hexBoard.game_over:
+                    break
                 fatCat.make_move(3)
                 
         #Check the results of each agent
@@ -93,3 +102,31 @@ def play(time_of_play, ratings_fatCat, ratings_iCat, board_size=4):
             
             
     return ratings_fatCat, ratings_iCat# The rating of last time
+
+
+
+if __name__=="__main__":
+    board_size = input("Please input the size of board: ")
+    time_of_play = input("Please input the times of play: ")
+    ratings_fatCat = []
+    ratings_iCat = []
+    ratings_fatCat, ratings_iCat = play(time_of_play=int(time_of_play), board_size=int(board_size))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

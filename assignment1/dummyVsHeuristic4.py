@@ -21,7 +21,11 @@ and that of searching with heuristic evaluation with depth 4
 
 """
 
-def play(time_of_play, ratings_sillyCat, ratings_greedyCat, board_size=4):
+def play(time_of_play, board_size=4):
+    
+    ratings_sillyCat = []
+    ratings_greedyCat = []
+    
     
     
     beginning_time = time.time()
@@ -47,11 +51,19 @@ def play(time_of_play, ratings_sillyCat, ratings_greedyCat, board_size=4):
         #agent that searches depth 3 with heuristicEvaluation
         first_move_color = random.choice(colors_of_agents)
         while(not hexBoard.game_over):
-            if first_move_color==sillyCat:
+            if first_move_color==sillyCat.agent_color:
+                if hexBoard.game_over:
+                    break
                 sillyCat.make_move(3)
+                if hexBoard.game_over:
+                    break
                 greedyCat.make_move(4)
             else:
+                if hexBoard.game_over:
+                    break
                 greedyCat.make_move(4)
+                if hexBoard.game_over:
+                    break
                 sillyCat.make_move(3)
                 
         #Check the results of each agent
@@ -82,6 +94,26 @@ def play(time_of_play, ratings_sillyCat, ratings_greedyCat, board_size=4):
             
             
     return ratings_sillyCat, ratings_greedyCat# The rating of last time
+
+
+
+
+
+
+if __name__=="__main__":
+    board_size = input("Please input the size of board: ")
+    time_of_play = input("Please input the times of play: ")
+    ratings_sillyCat = []
+    ratings_greedyCat = []
+    ratings_sillyCat, ratings_greedyCat = play(time_of_play=int(time_of_play), board_size=int(board_size))
+
+
+
+
+
+
+
+
 
 
 
