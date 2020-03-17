@@ -178,6 +178,7 @@ def mcts(agent, hexBoard:MyHexBoard, itermax, cp):
             children_uct = node.compute_children_uct()#compute the uct of children/moves
             move = max(children_uct.items(),key=operator.itemgetter(1))[0]
             node = node.children[move]
+            path.append(node)
             #hexBoard_copy.place(move, agent_color)
             
         #Expand
