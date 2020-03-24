@@ -163,29 +163,36 @@ class StateNode():
    
 
 
-def mcts(agent, hexBoard:MyHexBoard, itermax, cp):
+def mcts(agent, hexBoard:MyHexBoard, itermax, cp, tuning=False):
+    """
+    agent: an MCTSAgent object using mcts
+    hexBoard: a MyHexBoard object 
+    itermax: maxnumber of iteration
+    cp: coefficient of exploration
+    """
     agent_color = agent.agent_color
-    rootnode = StateNode(hexBoard, agent_color, cp=cp)  
+    rootnode = StateNode(hexBoard, agent_color, cp=cp)
+    expand_time=0
     for i in range(itermax):
         node = rootnode
         path = [] # to store the node in the mcts process
         path.append(node)
-        #hexBoard_copy = MyHexBoard(hexBoard.size, hexBoard.board.copy())
+
         
         #Select
         while node.get_untriedMoves()==[] and list(node.children.keys())!=[]:
             #node is fully expanded and non-terminal
+            expand_time+=1
             children_uct = node.compute_children_uct()#compute the uct of children/moves
             move = max(children_uct.items(),key=operator.itemgetter(1))[0]
             node = node.children[move]
             path.append(node)
-            #hexBoard_copy.place(move, agent_color)
+    
             
         #Expand
         if node.get_untriedMoves()!=[]:#if we can expand(i.e. state/node is non terminal)
             untriedMoves = node.get_untriedMoves()
             move = random.choice(untriedMoves)
-            #hexBoard_copy.place(move, agent_color)
             node.add_child(move) #add child and descend tree
             node = node.children[move]
             path.append(node)
@@ -217,6 +224,12 @@ def mcts(agent, hexBoard:MyHexBoard, itermax, cp):
     move_visitTime = {} #move and corresponding visited times
     for move in children_of_root.keys():
         move_visitTime[move]=children_of_root[move].n
+        
+        
+    if tuning==True:
+        #return the optimal move and expand times
+        return max(move_visitTime.items(),key=operator.itemgetter(1))[0], expand_time
+        
         
     return max(move_visitTime.items(),key=operator.itemgetter(1))[0]
     

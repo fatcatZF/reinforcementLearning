@@ -16,6 +16,7 @@ INF = np.inf
 
 
 class Agent:
+    # alphabeta Agent
     def __init__(self,hexBoard:MyHexBoard, agent_color,search_func=alphabeta, eval_func=heuristicEvaluation):
         self.hexBoard=hexBoard
         self.agent_color = agent_color
@@ -90,13 +91,19 @@ class MCTSAgent:
         #self.cp=cp
         self.search_func=search_func
         
-    def find_optimal_move(self,itermax, cp):
-        best_move = self.search_func(self, self.hexBoard, itermax, cp)
+    def find_optimal_move(self,itermax, cp, tuning=False):
+        best_move = self.search_func(self, self.hexBoard, itermax, cp, tuning=tuning)
         return best_move
     
-    def make_move(self, itermax=20, cp=2):
-        best_move=self.find_optimal_move(itermax,cp)
+    def make_move(self, itermax=10, cp=2, tuning=False):
+        if tuning==True:
+            best_move, expand_time=self.find_optimal_move(itermax, cp, tuning=True)
+        else:
+            best_move=self.find_optimal_move(itermax,cp)
         self.hexBoard.place(best_move, self.agent_color)
+        
+        if tuning==True:
+            return expand_time
         
         
   
