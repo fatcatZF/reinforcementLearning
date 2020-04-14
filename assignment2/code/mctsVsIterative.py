@@ -58,11 +58,11 @@ def play(time_of_play, board_size=4):
                 mctsCat.make_move()
                 if hexBoard.game_over:
                     break
-                iCat.make_move(20) #duration of search
+                iCat.make_move(6) #duration of search
             else:
                 if hexBoard.game_over:
                     break
-                iCat.make_move(20)
+                iCat.make_move(6)
                 if hexBoard.game_over:
                     break
                 mctsCat.make_move()

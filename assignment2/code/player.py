@@ -95,7 +95,7 @@ class MCTSAgent:
         best_move = self.search_func(self, self.hexBoard, itermax, cp, tuning=tuning)
         return best_move
     
-    def make_move(self, itermax=10, cp=2, tuning=False):
+    def make_move(self, itermax=10, cp=0.2, tuning=False):
         if tuning==True:
             best_move, expand_time=self.find_optimal_move(itermax, cp, tuning=True)
         else:

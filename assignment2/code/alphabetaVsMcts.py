@@ -49,9 +49,9 @@ def play(time_of_play, board_size=4):
         color_of_alphabetaAgent = hexBoard.get_opposite_color(color_of_mctsAgent)
         #Random decide the color of each agent
         mctsAgent = MCTSAgent(hexBoard,color_of_mctsAgent) 
-        #agent that searches depth 3 with dummyEvaluation
+        #agent that searches depth 4 with dummyEvaluation
         alphabetaAgent = Agent(hexBoard,color_of_alphabetaAgent) 
-        #agent that searches  with iterative deepen and tranposition table
+        #mcts agent  
         first_move_color = random.choice(colors_of_agents)
         while(not hexBoard.game_over):
             if first_move_color==mctsAgent.agent_color:
