@@ -10,6 +10,9 @@ from keras.models import Sequential
 from keras.layers import Dense
 from keras.optimizers import Adam
 import numpy as np
+from keras.callbacks import EarlyStopping
+
+
 
 def build_mlp_model(input_size, output_size):
     model = Sequential()
@@ -21,11 +24,19 @@ def build_mlp_model(input_size, output_size):
 
 
 
-def build_train_model(training_data, num_of_epochs=20, build_func=build_mlp_model):
+def build_train_model(training_data, build_func=build_mlp_model, fit_params=None, verbose=0):
     X = np.array([i[0] for i in training_data]).reshape(-1, len(training_data[0][0]))
     y = np.array([i[1] for i in training_data]).reshape(-1, len(training_data[0][1]))
     
+    if fit_params is None:
+        fit_params={
+            "epochs":100,
+            "validation_split":0.3,
+            "callbacks":[EarlyStopping(patience=5, monitor="val_loss")]
+            }
+    
+    
     model=build_func(input_size=len(X[0]), output_size=len(y[0]))
-    model.fit(X, y, epochs=num_of_epochs)
+    model.fit(X, y, verbose=verbose, **fit_params)
     
     return model
