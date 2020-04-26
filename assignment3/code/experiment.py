@@ -11,11 +11,16 @@ from mc_games import prepair_training_data, test_play, play_funcs
 from nn_models import build_train_model
 import pickle
 
-def pipeline(play_func, threshold, number_of_episodes, experiment_times=10, verbose=False):
+def pipeline(play_func, threshold, number_of_episodes, experiment_times=10, 
+             verbose=False, render=False):
     """
-    play_func: selected function to play
+    play_func: selected function to play, you can pass the following parametres:
+        play_funcs['energy_v1'], play_funcs['energy'], play_funcs['position']
+        
     threshold: the minimal sum of rewards required
     number_of_episodes: number of episodes in each experiment
+    verbose: whether print total reward of each episode
+    render: whether render the play process
     """
     
     winning_rates=[]#to record the winning rate in each experiment
@@ -30,7 +35,7 @@ def pipeline(play_func, threshold, number_of_episodes, experiment_times=10, verb
             continue 
         model = build_train_model(training_data)
         # use the training data to train a neural network model
-        winning_rate, average_number_of_steps=test_play(100, model)
+        winning_rate, average_number_of_steps=test_play(100, model, render=render)
         winning_rates.append(winning_rate)
         number_of_steps.append(average_number_of_steps)
         number_of_training_examples.append(len(training_data))

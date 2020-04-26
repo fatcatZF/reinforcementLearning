@@ -109,14 +109,15 @@ def play_game_reward_based_on_energy_v1(verbose=False):
             previous_observation=previous_observations[-1]
             h0=abs(previous_observation[0]-(-0.5))
             h1=abs(observation[0]-(-0.5))
-            v0=abs(previous_observation[1])
-            v1=abs(observation[1])
+            v0 = abs(previous_observation[1])
+            v1 = abs(observation[1])
+           
             game_memory.append((previous_observation,action))
-            if not done and h1>h0 and v1>0 and v0>0 and v1>v0:
+            if not done and h1>h0 and v1>0 and v0>0 and v1 >v0:
                 reward=(h1-h0)+0.5*(v1**2-v0**2)
             elif not done and h1>h0:
                 reward=h1-h0
-            elif not done and v1>0 and v0>0 and v1>v0:
+            elif not done and v1>0 and v0>0 and v1 >v0 :
                 reward=0.5*(v1**2-v0**2)
             else:
                 reward=env_reward

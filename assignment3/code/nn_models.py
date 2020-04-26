@@ -11,14 +11,17 @@ from keras.layers import Dense
 from keras.optimizers import Adam
 import numpy as np
 from keras.callbacks import EarlyStopping
+from keras.utils.vis_utils import plot_model
 
 
-
-def build_mlp_model(input_size, output_size):
+def build_mlp_model(input_size, output_size, is_plot=False):
     model = Sequential()
     model.add(Dense(128, input_dim=input_size, activation='relu'))
     model.add(Dense(output_size, activation='softmax'))
     model.compile(loss='mse', optimizer=Adam())
+    
+    if is_plot:
+        plot_model(model, to_file='mlp_model.png', show_shapes=True, show_layer_names=True)
     
     return model 
 
