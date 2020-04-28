@@ -5,6 +5,8 @@ Created on Fri Apr 20 17:03:08 2020
 
 @author: Z Fang
 
+https://github.com/fatcatZF/reinforcementLearning
+
 Demo the play process based on energy and velocity
 """
 

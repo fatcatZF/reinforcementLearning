@@ -4,6 +4,8 @@
 Created on Tue Apr 14 00:44:31 2020
 
 @author: Z Fang
+https://github.com/fatcatZF/reinforcementLearning
+
 """
 
 from keras.models import Sequential

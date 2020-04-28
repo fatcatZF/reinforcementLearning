@@ -5,6 +5,8 @@ Created on Fri Apr 18 02:09:00 2020
 
 @author: Z Fang
 
+https://github.com/fatcatZF/reinforcementLearning
+
 """
 
 import matplotlib.pyplot as plt

@@ -5,6 +5,8 @@ Created on Tue Apr 14 19:23:58 2020
 
 @author: Z Fang
 
+https://github.com/fatcatZF/reinforcementLearning
+
 """
 
 from mc_games import prepair_training_data, test_play, play_funcs

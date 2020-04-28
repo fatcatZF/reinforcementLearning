@@ -4,6 +4,9 @@
 Created on Thu Apr 23 14:56:43 2020
 
 @author: Z Fang
+
+https://github.com/fatcatZF/reinforcementLearning
+
 """
 
 import numpy as np
@@ -449,12 +452,26 @@ def experiment():
     episodes = int(input("please input episodes: "))
     max_size=int(input("please input the max size of replay buffer: "))
     batch_size=int(input("please input the batch size: "))
-    update_frequency=int("please input update frequency: episode, buffsize or step: ")
-    is_contrast=bool(input("Do you want to use setAllNonZeroPixelsToOne preprocessing(True or False): "))
-    use_single_example=bool(input("Do you want to use hybrid training method(True or False): "))
-    double = bool(input("Do you want to use DDQN(True or False): "))
+    update_frequency=input("please input update frequency: episode, buffsize or step: ")
+    if update_frequency=="episode":
+        update_threshold=int(input("from which episode the training of the predict model starts?: "))
+    is_contrast=input("Do you want to use setAllNonZeroPixelsToOne preprocessing(True or False): ")
+    if is_contrast=="True":
+        is_contrast=True
+    else:
+        is_contrast=False
+    use_single_example=input("Do you want to use hybrid training method(True or False): ")
+    if using_single_example=="True":
+        using_single_example=True
+    else:
+        using_single_example=False
     
-    if double==True:
+    
+    double = input("Do you want to use DDQN(True or False): ")
+    
+    #print(double)
+    
+    if double=="True":
         target_update_frequency=int(input("Please input the target network update frequency: "))
         
     
@@ -472,6 +489,7 @@ def experiment():
                                         is_plot=True,
                                         max_size=max_size,
                                         batch_size=batch_size,
+                                        update_threshold=update_threshold,
                                         double=double)
 
 
