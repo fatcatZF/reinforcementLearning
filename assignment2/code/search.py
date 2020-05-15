@@ -109,6 +109,7 @@ class StateNode():
        w: wintimes
        n: number of times this node has been visited
        cp: coefficient of exploration
+       move_parent: the parent of this node and its corresponding move (move, parent)
        """
        self.hexBoard=hexBoard
        self.agent_color = agent_color
@@ -118,7 +119,7 @@ class StateNode():
        self.cp=cp
        self.children={} #record the move and corresponding children node
        self.triedMoves=[]
-       if move_parent!=None:
+       if move_parent!=None: #if this node is added by its parent through a move
            self.parents[move_parent[0]]=move_parent[1]
            
    def add_child(self, move):
@@ -127,14 +128,17 @@ class StateNode():
        hexBoard_copy.place(move, self.agent_color)
        opposite_color = hexBoard_copy.get_opposite_color(self.agent_color)
        child = StateNode(hexBoard_copy, opposite_color, move_parent=(move, self))
+       #The agent color of the child node should be opposite to current agent color
        self.children[move]=child
-       self.triedMoves.append(move)
+       self.triedMoves.append(move) #record this tried move
        
    
    def get_children(self):
+       #return a children's dictionary
        return self.children
    
    def get_parents(self):
+       #return parents' dictionary
        return self.parents
    
    def get_untriedMoves(self):
@@ -165,14 +169,19 @@ class StateNode():
 
 def mcts(agent, hexBoard:MyHexBoard, itermax, cp, tuning=False):
     """
-    agent: an MCTSAgent object using mcts
-    hexBoard: a MyHexBoard object 
-    itermax: maxnumber of iteration
-    cp: coefficient of exploration
+    args:
+      agent: an MCTSAgent object using mcts
+      hexBoard: a MyHexBoard object 
+      itermax: maxnumber of iteration
+      cp: coefficient of exploration(to control exploration/exploitation tradeoff)
+
+    Return:
+      The child visited max times
     """
     agent_color = agent.agent_color
     rootnode = StateNode(hexBoard, agent_color, cp=cp)
     expand_time=0
+
     for i in range(itermax):
         node = rootnode
         path = [] # to store the node in the mcts process
@@ -180,8 +189,9 @@ def mcts(agent, hexBoard:MyHexBoard, itermax, cp, tuning=False):
 
         
         #Select
+        #select the child with max uct value
         while node.get_untriedMoves()==[] and list(node.children.keys())!=[]:
-            #node is fully expanded and non-terminal
+            #node is fully expanded and non-terminal(has children)
             expand_time+=1
             children_uct = node.compute_children_uct()#compute the uct of children/moves
             move = max(children_uct.items(),key=operator.itemgetter(1))[0]
@@ -190,12 +200,13 @@ def mcts(agent, hexBoard:MyHexBoard, itermax, cp, tuning=False):
     
             
         #Expand
-        if node.get_untriedMoves()!=[]:#if we can expand(i.e. state/node is non terminal)
+        #get untried moves of a node and randomly select one
+        if node.get_untriedMoves()!=[]: #if we can expand(i.e. state/node is non terminal)
             untriedMoves = node.get_untriedMoves()
             move = random.choice(untriedMoves)
             node.add_child(move) #add child and descend tree
             node = node.children[move]
-            path.append(node)
+            path.append(node) #add the expanded node to the path
             
         #Playout
         while node.hexBoard.getMoveList()!=[] and not node.hexBoard.game_over:#while state is non-terminal
@@ -205,7 +216,7 @@ def mcts(agent, hexBoard:MyHexBoard, itermax, cp, tuning=False):
             node = node.children[move] 
             path.append(node)
             
-        #Check the result and Backpropagation
+        #Check the result(win or loss) and Backpropagation
         delta_n = 1
         if node.hexBoard.check_win(agent_color):
             delta_w=1
